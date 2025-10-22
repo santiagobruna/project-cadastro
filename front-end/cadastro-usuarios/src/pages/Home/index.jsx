@@ -14,21 +14,15 @@ function Home() {
 
     async function getUsers(){
         const response = await api.get('/usuarios');
-        setUsers(response.data); 
-        
+        const usersWithId = response.data.map(user => ({
+            id: user.id || user._id, 
+            name: user.name,
+            age: user.age,
+            email: user.email,
+        }));
+        setUsers(usersWithId);
     } 
 
-    async function DeleteUsers(id){
-        console.log('ID recebido no front:', id);
-        try {
-            await api.delete(`/usuarios/${id}`)
-            await getUsers();
-        } catch (error) {
-            console.error('Erro ao deletar:', error);
-            alert('Erro ao deletar usuário');
-        }
-    } 
-    
     async function createUsers(){
         try {
             await api.post('/usuarios', {
@@ -48,7 +42,16 @@ function Home() {
             alert('Erro ao criar usuário');
         }
     } 
-
+    async function DeleteUsers(id){
+        console.log('ID recebido no front:', id);
+        try {
+            await api.delete(`/usuarios/${id}`)
+            console.log('Requisição DELETE enviada para:', `/usuarios/${id}`);
+            await getUsers();
+        } catch (error) {
+            alert('Erro ao deletar usuário');
+        }
+    } 
     useEffect(() => {
         getUsers()
     }, [])

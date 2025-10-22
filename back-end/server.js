@@ -68,16 +68,13 @@ app.put('/usuarios/:id', async (req, res) => {
 
 app.delete('/usuarios/:id', async (req, res) => {
         const { id } = req.params;
-        console.log("ID recebido para deletar:", id, typeof id);
-
+        console.log(id)
         try {
             const deleted = await prisma.user.delete({
             where: { id: id }, 
             });
-            console.log('Usuário deletado:', deleted);
             res.status(200).json({ message: 'Usuário deletado com sucesso', deleted });
         } catch (error) {
-            console.error('Erro no delete:', error);
             res.status(500).json({ error: error.message });
         }
 })
