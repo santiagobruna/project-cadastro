@@ -18,20 +18,35 @@ function Home() {
         
     } 
 
-    async function createUsers(){
-        await api.post('/usuarios', {
-            name: inputName.current.value,
-            age: Number(inputAge.current.value), 
-            email: inputEmail.current.value
-        })
-        await getUsers();
-        
-    } 
-
     async function DeleteUsers(id){
-        await api.delete(`/usuarios/${id}`)
-        getUsers();
-        
+        console.log('ID recebido no front:', id);
+        try {
+            await api.delete(`/usuarios/${id}`)
+            await getUsers();
+        } catch (error) {
+            console.error('Erro ao deletar:', error);
+            alert('Erro ao deletar usuário');
+        }
+    } 
+    
+    async function createUsers(){
+        try {
+            await api.post('/usuarios', {
+                name: inputName.current.value,
+                age: Number(inputAge.current.value), 
+                email: inputEmail.current.value
+            })
+            
+            // Limpar inputs após cadastro
+            inputName.current.value = '';
+            inputAge.current.value = '';
+            inputEmail.current.value = '';
+            
+            await getUsers();
+        } catch (error) {
+            console.error('Erro ao criar:', error);
+            alert('Erro ao criar usuário');
+        }
     } 
 
     useEffect(() => {
