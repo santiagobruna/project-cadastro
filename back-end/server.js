@@ -9,16 +9,18 @@ const app = express();
 app.use(express.json());
 
 // Configuração CORS
-
-const ALLOWED_ORIGINS = (process.env.FRONTEND_URLS || '').split(',');
-
-const PORT = process.env.PORT || 3000;
+const allowedOrigins = [
+  'https://project-cadastro-tau.vercel.app', // frontend deploy
+  'http://localhost:5173', // frontend dev
+];
 
 app.use(cors({
     origin: function(origin, callback) {
         if (!origin) return callback(null, true); 
-        if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
         return callback(new Error(`CORS não permitido para ${origin}`), false);
+        }
+        return callback(null, true);
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
@@ -74,6 +76,7 @@ app.delete('/usuarios/:id', async (req, res) => {
 });
 
 // Porta dinâmica para Render
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
