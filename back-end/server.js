@@ -10,17 +10,15 @@ app.use(express.json());
 
 // Configuração CORS
 
+const ALLOWED_ORIGINS = (process.env.FRONTEND_URLS || '').split(',');
 
 const PORT = process.env.PORT || 3000;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
 app.use(cors({
     origin: function(origin, callback) {
         if (!origin) return callback(null, true); 
-        if ([FRONTEND_URL].indexOf(origin) === -1) {
+        if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
         return callback(new Error(`CORS não permitido para ${origin}`), false);
-        }
-        return callback(null, true);
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
