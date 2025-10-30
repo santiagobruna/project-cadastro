@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Configuração CORS
 const allowedOrigins = [
-  'https://project-cadastro-2tevx8efr-santiagobrunas-projects.vercel.app/', // frontend deploy
+  'https://project-cadastro-2tevx8efr-santiagobrunas-projects.vercel.app', // frontend deploy
   'http://localhost:5173', // frontend dev
 ];
 
