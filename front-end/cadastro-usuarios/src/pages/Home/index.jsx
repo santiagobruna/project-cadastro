@@ -39,11 +39,9 @@ function Home() {
             await getUsers();
         } catch (error) {
             console.error('Erro ao criar:', error);
-            alert('Erro ao criar usuário');
         }
     } 
     async function DeleteUsers(id){
-        console.log('ID recebido no front:', id);
         try {
             await api.delete(`/usuarios/${id}`)
             console.log('Requisição DELETE enviada para:', `/usuarios/${id}`);
