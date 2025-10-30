@@ -44,7 +44,6 @@ function Home() {
     async function DeleteUsers(id){
         try {
             await api.delete(`/usuarios/${id}`)
-            console.log('Requisição DELETE enviada para:', `/usuarios/${id}`);
             await getUsers();
         } catch (error) {
             alert('Erro ao deletar usuário');
